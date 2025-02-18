@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
 		http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	version="3.1">
-
+	
 	<context-param>
 		<description>로깅 여부</description>
 		<param-name>logEnabled</param-name>
@@ -17,4 +17,23 @@
 		<param-name>debugLevel</param-name>
 		<param-value>5</param-value>
 	</context-param>
+
+	<error-page>
+		<error-code>404</error-code>
+		<location>/error/error404.jsp</location>
+	</error-page>
+
+	<error-page>
+		<error-code>500</error-code>
+		<location>/error/error500.jsp</location>
+	</error-page>
+
+	<jsp-config>
+		<jsp-property-group>
+			<url-pattern>/view/*</url-pattern>
+			<include-prelude>/common/variable.jspf</include-prelude>
+			<include-coda>/common/footer.jspf</include-coda>
+		</jsp-property-group>
+	</jsp-config>
+
 </web-app>

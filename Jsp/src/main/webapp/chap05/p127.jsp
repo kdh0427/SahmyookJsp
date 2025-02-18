@@ -11,7 +11,7 @@
 	char[] buff = new char[128];
 	int len = -1;
 
-	String filePath = "C:\\Users\\82106\\git\\Jsp\\Jsp\\src\\main\\webapp\\message\\notice.txt";
+	String filePath = "C:\\Users\\82106\\git\\Jsp\\Jsp\\src\\main\\webapp\\chap05\\message\\notice.txt";
 	try (InputStreamReader fr = new InputStreamReader(new FileInputStream(filePath), "UTF-8")) {
 		while ((len = fr.read(buff)) != -1) {
 			out.println(new String(buff, 0, len));
