@@ -35,5 +35,17 @@
 			<include-coda>/common/footer.jspf</include-coda>
 		</jsp-property-group>
 	</jsp-config>
+	
+	<servlet>
+		<servlet-name>OracleDriverLoader</servlet-name>
+		<servlet-class>jdbc.OracleDriverLoader</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>DBCPInit</servlet-name>
+		<servlet-class>jdbc.DBCPInit</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
 
 </web-app>
