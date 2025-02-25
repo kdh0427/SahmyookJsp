@@ -22,7 +22,7 @@ public class DBCPInit extends HttpServlet {
 
     private void loadJDBCDriver() {
         try {
-            Class.forName("oracle.jdbc.OracleDriver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
             throw new RuntimeException("Fail to load JDBC Driver", ex);
         }
@@ -30,16 +30,17 @@ public class DBCPInit extends HttpServlet {
 
     private void initConnectionPool() {
         try {
-            String jdbcURL = "jdbc:oracle:thin:@localhost:1521:orcl";
-            String username = "c##jspexam";
-            String pw = "qwer1234";
+            String jdbcURL = "jdbc:mysql://localhost:3306/guestbook?" +
+            		"useUnicode=true&characterEncoding=utf8";
+            String username = "jspexam";
+            String pw = "1234";
 
             ConnectionFactory connFactory = 
                     new DriverManagerConnectionFactory(jdbcURL, username, pw);
 
             PoolableConnectionFactory poolableConnFactory = 
                     new PoolableConnectionFactory(connFactory, null);
-            poolableConnFactory.setValidationQuery("SELECT 1 FROM DUAL");
+            poolableConnFactory.setValidationQuery("SELECT 1");
 
             GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
             poolConfig.setTimeBetweenEvictionRunsMillis(1000L * 60L * 5L);
@@ -52,9 +53,18 @@ public class DBCPInit extends HttpServlet {
             poolableConnFactory.setPool(connectionPool);
 
             Class.forName("org.apache.commons.dbcp2.PoolingDriver");
+            
+            // 14장
+            /*
             PoolingDriver driver = (PoolingDriver) 
                     DriverManager.getDriver("jdbc:apache:commons:dbcp:");
             driver.registerPool("chap14", connectionPool);
+            */
+            
+            // 15장
+            PoolingDriver driver = (PoolingDriver) 
+                    DriverManager.getDriver("jdbc:apache:commons:dbcp:");
+            driver.registerPool("guestbook", connectionPool);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
