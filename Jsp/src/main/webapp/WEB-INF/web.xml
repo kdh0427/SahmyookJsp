@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:jsp="http://java.sun.com/xml/ns/javaee/jsp" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
+  
   <context-param>
     <description>로깅 여부</description>
     <param-name>logEnabled</param-name>
     <param-value>true</param-value>
   </context-param>
+  
   <context-param>
     <description>디버깅 레벨</description>
     <param-name>debugLevel</param-name>
     <param-value>5</param-value>
   </context-param>
+  
   <error-page>
     <error-code>404</error-code>
     <location>/error/error404.jsp</location>
   </error-page>
+  
   <error-page>
     <error-code>500</error-code>
     <location>/error/error500.jsp</location>
   </error-page>
+  
   <jsp-config>
     <jsp-property-group>
       <url-pattern>/view/*</url-pattern>
@@ -25,6 +30,7 @@
       <include-coda>/common/footer.jspf</include-coda>
     </jsp-property-group>
   </jsp-config>
+  
   <servlet>
     <servlet-name>DBCPInit2</servlet-name>
     <servlet-class>jdbc.DBCPInit2</servlet-class>
@@ -52,30 +58,46 @@
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
-  <!--
-   <servlet>
-    <servlet-name>SimpleController</servlet-name>
-    <servlet-class>mvc.simple.SimpleController</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SimpleController</servlet-name>
-    <url-pattern>/simple</url-pattern>
-  </servlet-mapping>
-  -->
   
   <servlet>
-    <servlet-name>ControllerUsingFile</servlet-name>
-    <servlet-class>mvc.controller.ControllerUsingFile</servlet-class>
+    <servlet-name>ControllerUsingURI</servlet-name>
+    <servlet-class>mvc.controller.ControllerUsingURI</servlet-class>
     <init-param>
-    	<param-name>configFile</param-name>
-    	<param-value>/WEB-INF/commandHandler.properties</param-value>
+      <param-name>configFile</param-name>
+      <param-value>/WEB-INF/commandHandlerURI.properties</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>ControllerUsingFile</servlet-name>
-    <url-pattern>/controllerUsingFile</url-pattern>
+    <servlet-name>ControllerUsingURI</servlet-name>
+    <url-pattern>*.do</url-pattern>
   </servlet-mapping>
+  
+<!--
+  <filter>
+    <filter-name>NullParameter</filter-name>
+    <filter-class>filter.NullParameterFilter</filter-class>
+    <init-param>
+    	<param-name>parameterNames</param-name>
+    	<param-value>id, name</param-value>
+    </init-param>
+  </filter>
+  
+  <filter-mapping>
+    <filter-name>NullParameter</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+-->
+  
+  <filter>
+    <filter-name>LoginCheck</filter-name>
+    <filter-class>filter.LoginCheckFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+    <filter-name>LoginCheck</filter-name>
+    <url-pattern>/chap19/board/*</url-pattern>
+  </filter-mapping>
   
 </web-app>
